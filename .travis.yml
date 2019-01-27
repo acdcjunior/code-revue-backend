@@ -1,9 +1,13 @@
 language: node_js
 node_js:
 - '8'
+
+# https://docs.travis-ci.com/user/languages/javascript-with-nodejs/#Caching-with-npm
 cache:
   directories:
   - node_modules
+
+# generated via "travis setup heroku" | after "travis login --github-token TOKEN" and "heroku login" @ https://github.com/acdcjunior/docker-heroku-travis
 deploy:
   provider: heroku
   api_key:
