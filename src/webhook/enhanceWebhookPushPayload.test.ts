@@ -12,8 +12,8 @@ describe('enhanceWebhookPushPayload', () => {
         axiosMock.onGet(`http://c3prgitlab:8888/api/v4/projects/2/repository/commits/80f8374670976719c6566e8db6338a399cd5db27/diff`).reply(200, [{"old_path":"src/main/java/io/github/c3pr/sample/javamaven/walkmod/PrimitiveInstantiationForToString.java","new_path":"src/main/java/io/github/c3pr/sample/javamaven/walkmod/PrimitiveInstantiationForToString.java","a_mode":"0","b_mode":"100644","new_file":true,"renamed_file":false,"deleted_file":false,"diff":"@@ -0,0 +1,12 @@\n+package io.github.c3pr.sample.javamaven.walkmod;\n+\n+public class PrimitiveInstantiationForToString {\n+\n+    public String primitiveInstantiationForToString(int myInt) {\n+        new Integer(myInt).toString();\n+        new Integer(myInt+\"\").toString();\n+\n+        return \"\" + myInt;\n+    }\n+\n+}\n"}]);
         axiosMock.onGet(`http://c3prgitlab:8888/api/v4/projects/2/repository/commits/802836dece83b10eeb9ac8920ef7acf329332cd9/diff`).reply(200, [{"old_path":"src/main/java/io/github/c3pr/sample/javamaven/walkmod/ArrayDesignatorOnType.java","new_path":"src/main/java/io/github/c3pr/sample/javamaven/walkmod/ArrayDesignatorOnType.java","a_mode":"0","b_mode":"100644","new_file":true,"renamed_file":false,"deleted_file":false,"diff":"@@ -0,0 +1,11 @@\n+package io.github.c3pr.sample.javamaven.walkmod;\n+\n+public class ArrayDesignatorOnType {\n+\n+    public String arrayDesignatorOnType(String yay) {\n+        int matrix[][];\n+\n+        return \"\" + yay;\n+    }\n+\n+}\n"}]);
 
-        const input = require('./GitLabPush/push.webhook.json');
-        const expectedOutput = require('./GitLabPush/push.webhook.modifiedByCodeRevue.json');
+        const input = require('../gitlab/types/GitLabPush/push.webhook.json');
+        const expectedOutput = require('../gitlab/types/GitLabPush/push.webhook.modifiedByCodeRevue.json');
 
         let actualOutput = await enhanceWebhookPushPayload(input);
 

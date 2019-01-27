@@ -1,18 +1,19 @@
 import axios from 'axios';
 import config from '../config';
-import {OutboundPorts} from "../../../ports/outbound/OutboundPorts";
-import {GitLabModifiedFile} from "../../../ports/outbound/types/GitLabModifiedFile";
+import {GitLabModifiedFile} from "./types/GitLabDiff/GitLabModifiedFile";
 
 
-async function getGitLabCommitDiff(urlEncodedOrgNameProjectName, sha: string): Promise<GitLabModifiedFile[]> {
+export async function getGitLabCommitDiff(serverUrl: string, projectId: number | string, sha: string): Promise<GitLabModifiedFile[]> {
+    let url = `${serverUrl}/api/v4/projects/${projectId}/repository/commits/${sha}/diff`;
+    //console.log(url);
     const {data: modifiedFiles} = await axios.get(
-        `${config.codeRevue.repoGitlab.gitlab.url}/api/v4/projects/${urlEncodedOrgNameProjectName}/repository/commits/${sha}/diff`,
-        {headers: {"PRIVATE-TOKEN": config.codeRevue.repoGitlab.gitlab.apiToken}}
+        url,
+        {headers: {"PRIVATE-TOKEN": config.codeRevue.gitlabApiToken}}
     );
+    for (const modifiedFile of modifiedFiles) {
+        if (modifiedFile.diff[0] === '@') {
+            modifiedFile.diff = `--- a/${modifiedFile.old_path}\n+++ b/${modifiedFile.new_path}\n${modifiedFile.diff}`;
+        }
+    }
     return modifiedFiles;
 }
-
-// noinspection JSUnusedLocalSymbols
-const variableToGuaranteeTheFunctionMatchesTheInterface: OutboundPorts['getGitLabCommitDiff'] = getGitLabCommitDiff;
-
-export { getGitLabCommitDiff }
