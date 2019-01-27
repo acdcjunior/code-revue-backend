@@ -11,6 +11,8 @@ const WEBHOOKS_URL = `/webhooks`;
 const config = {
     codeRevue: {
 
+        gitlabApiToken: GITLAB_API_TOKEN, // api + read_user token for the gitUserName gitlab user
+
         repoGitlab: {
             codeRevueBackendUrl: CODEREVUE_BACKEND_URL,
             codeRevueBackendPort: require('url').parse(CODEREVUE_BACKEND_URL).port || 80,
@@ -19,7 +21,6 @@ const config = {
 
             gitlab: {
                 url: GITLAB_URL,
-                apiToken: GITLAB_API_TOKEN, // api + read_user token for the gitUserName gitlab user
 
                 normalizeGitLabUrl(url) {
                     let gitlabUrl = GITLAB_URL;
