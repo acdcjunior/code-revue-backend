@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/acdcjunior/code-review-backend",
   "dependencies": {
+    "@types/node": "^10.12.18",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
@@ -32,7 +33,6 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.5.2",
     "@types/sinon-chai": "^2.7.33",
     "axios-mock-adapter": "^1.15.0",
     "chai": "^4.1.2",
