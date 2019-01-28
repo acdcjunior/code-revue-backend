@@ -1,5 +1,5 @@
-import enhanceWebhookPushPayload from './enhanceWebhookPushPayload';
 import {GitLabPush} from "../gitlab/types/GitLabPush/GitLabPush";
+import handlePush from "./handlePush";
 
 
 function handleWebhook(webhookPayload: GitLabPush): Promise<any> {
@@ -8,7 +8,7 @@ function handleWebhook(webhookPayload: GitLabPush): Promise<any> {
         let gitlabPush = webhookPayload as GitLabPush;
 
         console.log(`Received webhook for PUSH from ${gitlabPush.repository.git_http_url}. Message: '${gitlabPush.commits && gitlabPush.commits[0].message.trim()}'.`);
-        return enhanceWebhookPushPayload(gitlabPush);
+        return handlePush(gitlabPush);
     }
 
     console.log(`Received webhook. Unknown type: ${webhookPayload.object_kind}.`);
