@@ -1,14 +1,16 @@
 import axios from 'axios';
-import config from '../config';
 import {GitLabModifiedFile} from "./types/GitLabDiff/GitLabModifiedFile";
+import {gitLabServerInfo} from "../coderevue/server-config";
 
 
-export async function getGitLabCommitDiff(serverUrl: string, projectId: number | string, sha: string): Promise<GitLabModifiedFile[]> {
-    let url = `${serverUrl}/api/v4/projects/${projectId}/repository/commits/${sha}/diff`;
-    //console.log(url);
+export async function getGitLabCommitDiff(projectId: number | string, sha: string): Promise<GitLabModifiedFile[]> {
+    const gitLabServer = await gitLabServerInfo();
+
+    let url = `${gitLabServer.gitlabServerUrl}/api/v4/projects/${projectId}/repository/commits/${sha}/diff`;
+    console.log(url);
     const {data: modifiedFiles} = await axios.get(
         url,
-        {headers: {"PRIVATE-TOKEN": config.codeRevue.gitlabApiToken}}
+        {headers: {"PRIVATE-TOKEN": gitLabServer.gitlabApiToken}}
     );
     for (const modifiedFile of modifiedFiles) {
         if (modifiedFile.diff[0] === '@') {

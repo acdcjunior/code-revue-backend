@@ -5,6 +5,14 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 const axiosMock = new MockAdapter(axios);
 
+import { ImportMock } from 'ts-mock-imports';
+import * as serverConfigModule from '../coderevue/server-config';
+
+ImportMock.mockFunction(serverConfigModule, 'gitLabServerInfo', {
+    gitlabServerUrl: 'http://c3prgitlab:8888',
+    gitlabApiToken: 'x'
+});
+
 describe('enhanceWebhookPushPayload', () => {
 
     it('enhanceWebhookPushPayload', async () => {

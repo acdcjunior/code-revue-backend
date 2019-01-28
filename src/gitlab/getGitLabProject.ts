@@ -1,13 +1,15 @@
 import axios from 'axios';
-import config from '../config';
 import {encodeGroupProjectPath} from "./encodeGroupProjectPath";
 import {GitLabProject} from "./types/GitLabProject/GitLabProject";
+import {gitLabServerInfo} from "../coderevue/server-config";
 
 
-async function getGitLabProject(serverUrl: string, project_id: string | number): Promise<GitLabProject> {
+async function getGitLabProject(project_id: string | number): Promise<GitLabProject> {
+    const gitLabServer = await gitLabServerInfo();
+
     let {data: getProject} = await axios.get(
-        `${serverUrl}/api/v4/projects/${encodeGroupProjectPath(project_id)}`,
-        {headers: {"PRIVATE-TOKEN": config.codeRevue.gitlabApiToken}}
+        `${gitLabServer.gitlabServerUrl}/api/v4/projects/${encodeGroupProjectPath(project_id)}`,
+        {headers: {"PRIVATE-TOKEN": gitLabServer}}
     );
     return getProject;
 }
