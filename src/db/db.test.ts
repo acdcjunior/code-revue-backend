@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { databaseTest } from './db'
+import {databaseTest, firestore} from './db'
 import {guaranteeProjectExistsInDb} from "../coderevue/project";
 import {processPossibleNewGitLabCommit} from "../coderevue/gitlab-commit";
 

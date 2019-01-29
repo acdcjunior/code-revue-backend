@@ -1,7 +1,8 @@
 import {firestore} from "../db/db";
+import {getAllUserKeys} from "./users";
 
-export async function assignReviewers(projectId: number, commitId: string, branchName: string) {
-    const reviewersRef = firestore.collection('reviewers').doc(commitId);
+export async function assignReviewers(projectId: string, commitId: string, branchName: string) {
+    const reviewersRef = firestore.collection('commits-reviewers').doc(commitId);
     const assignedReviewers = await getAssignedReviewers(projectId, branchName);
 
     const reviewers = {};
@@ -14,10 +15,21 @@ export async function assignReviewers(projectId: number, commitId: string, branc
     await reviewersRef.set(reviewers);
 }
 
-export async function updateReviewers(projectId: number, commitId: string, branchName: string) {
+export async function updateReviewers(projectId: string, commitId: string, branchName: string) {
     const reviewers = await getAssignedReviewers(projectId, branchName);
 }
 
-export function getAssignedReviewers(projectId: number, branchName: string): string[] {
-    return ['acdcjunior@yo.io', 'bob@nelson.com']
+async function getAssignedReviewers(projectId: string, branchName: string): Promise<string[]> {
+    const projectsReviewersRef = firestore.collection('projects-reviewers').doc(projectId);
+    const projectsReviewers = await projectsReviewersRef.get();
+    let reviewers = projectsReviewers.data().reviewers;
+    return reviewers[Math.floor(Math.random()*reviewers.length)]; // picks a random reviewer
+}
+
+export async function createDefaultReviewers(projectId) {
+    const projectReviewersRef = firestore.collection('projects-reviewers').doc(projectId);
+    projectReviewersRef.set({
+        reviewers: await getAllUserKeys()
+    });
+    console.log(`Added all users as possible system-auto-assignable reviewers of Project ${projectId}'s commits.`);
 }

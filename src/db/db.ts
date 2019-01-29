@@ -12,7 +12,7 @@ export const firestore = new Firestore({
 
 export async function databaseTest() {
 
-    const docz = firestore.doc('posts/Vf4Tm5AzTrB1KZMr1FhR');
+    const docz = firestore.doc('test/Vf4Tm5AzTrB1KZMr1FhR');
 
     // Enter new data into the docz.
     await docz.set({

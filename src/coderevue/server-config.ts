@@ -3,7 +3,7 @@ import {firestore} from "../db/db";
 let gitlabServerUrl, gitlabApiToken;
 
 async function initializeGitlabInfo() {
-    const configRef = firestore.collection('gitlab-server-config').doc('config');
+    const configRef = firestore.collection('config').doc('config');
     const configSnapshot = await configRef.get();
 
     gitlabServerUrl = configSnapshot.data().gitlabServerUrl;

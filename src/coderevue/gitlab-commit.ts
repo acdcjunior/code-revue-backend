@@ -4,7 +4,7 @@ import {getGitLabCommitDiff} from "../gitlab/getGitLabCommitDiff";
 import {getGitLabCommit} from "../gitlab/getGitLabCommit";
 import {assignReviewers, updateReviewers} from "./reviewers";
 
-export async function processPossibleNewGitLabCommit(projectId: number, ref: string, commitId: string) {
+export async function processPossibleNewGitLabCommit(projectId: string, ref: string, commitId: string) {
     const branchName = formatBranchName(ref);
 
     const commitRef = firestore.collection('gitlab-commits').doc(commitId);

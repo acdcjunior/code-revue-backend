@@ -9,7 +9,7 @@ async function getGitLabProject(project_id: string | number): Promise<GitLabProj
 
     let {data: getProject} = await axios.get(
         `${gitLabServer.gitlabServerUrl}/api/v4/projects/${encodeGroupProjectPath(project_id)}`,
-        {headers: {"PRIVATE-TOKEN": gitLabServer}}
+        {headers: {"PRIVATE-TOKEN": gitLabServer.gitlabApiToken}}
     );
     return getProject;
 }
